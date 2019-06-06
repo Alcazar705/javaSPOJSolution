@@ -1,0 +1,83 @@
+ONP - Transform the Expression
+
+Transform the algebraic expression with brackets into RPN form (Reverse Polish Notation). 
+Two-argument operators: +, -, *, /, ^ (priority from the lowest to the highest), brackets ( ). 
+Operands: only letters: a,b,...,z. Assume that there is only one RPN form (no expressions like a*b*c).
+
+Input
+t [the number of expressions <= 100]
+expression [length <= 400]
+[other expressions]
+Text grouped in [ ] does not appear in the input file.
+
+Output
+The expressions in RPN form, one per line.
+
+
+Solution:
+It may seem like a very typical question but it is not.
+All you have to do is use stack.
+So, we will create a class called stack and add basic pop and push function in it.
+And we will use our RPN knowdlege to solve it.
+
+Code:
+
+import java.util.Scanner;
+
+public class Stack {
+    char[] letters = new char[100];
+    int top = 0;
+
+    public void push(char a){
+
+            letters[top] = a;
+            top++;
+    }
+
+
+    public int size(){
+        return top;
+    }
+
+    public char pop(){
+        top--;
+        char sign = letters[top];
+        letters[top] = 0;
+        return sign;
+    }
+
+    public void show(){
+        for(int i =0; i<= top;i++){
+            System.out.println(letters[i]);
+        }
+    }
+}
+
+
+
+public class Main {
+
+    public static void main(String[] args) {
+	  Stack newStack = new Stack();
+
+	  Scanner sc = new Scanner(System.in);
+
+	  String expression = sc.nextLine();
+
+	  char[] charExpression = expression.toCharArray();
+
+	  for(int i=0; i<expression.length();i++){
+	  	if(charExpression[i] == '('){
+			  continue;
+		  }
+	  	else if(charExpression[i] == '+' || charExpression[i] == '-' || charExpression[i] == '*' || charExpression[i] == '/' || charExpression[i] == '^' )
+	                newStack.push(charExpression[i]);
+	  	else if (charExpression[i] == ')'){
+			  System.out.print(newStack.pop());
+		  }
+	  	else
+		  System.out.print(charExpression[i]);
+      }
+
+    }
+}
